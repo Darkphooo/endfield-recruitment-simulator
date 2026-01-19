@@ -267,7 +267,7 @@ function App() {
         </div>
 
         {/* Right: Controls & Nav */}
-        <div className="lg:col-span-3 flex flex-col gap-4 order-2 lg:order-0">
+        <div className="lg:col-span-3 flex flex-col gap-4 order-3 lg:order-0">
           <div className="bg-endfield-gray/30 p-6 border border-gray-700 flex-1 flex flex-col justify-between">
             <div>
               <h3 className="text-gray-300 font-bold mb-6 flex items-center gap-2">
