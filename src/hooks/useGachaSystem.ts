@@ -8,6 +8,7 @@ const INITIAL_STATE: GachaState = {
   pity6: 0,
   pity5: 0,
   pityLimited: 0,
+  isLimitedGuaranteedUsed: false,
   totalPulls: 0,
   accumulatedPullsForRewards: 0,
   inventory: {},
@@ -91,12 +92,26 @@ export const useGachaSystem = () => {
       // 4. Else 4*
 
       // 1. Hard Limited Guarantee
-      if (!isSpecial && newState.pityLimited >= 119) {
+      // Only trigger if not used yet for this banner
+      if (
+        !isSpecial &&
+        newState.pityLimited >= 119 &&
+        !newState.isLimitedGuaranteedUsed
+      ) {
         selectedOp = upOp;
-        // Reset Pities
-        newState.pityLimited = 0;
+        // Mark as used
+        newState.isLimitedGuaranteedUsed = true;
+        // Reset Pities (Usually hard pity resets standard pity too if it consumes the pull?)
+        // Requirement: "120 pulls must get...".
+        // It's a guaranteed capture. It should probably reset pity6.
         newState.pity6 = 0;
         newState.pity5 = 0;
+        // Do NOT reset pityLimited, so it doesn't trigger again (controlled by flag now),
+        // but for display purposes maybe keep it? Or reset it?
+        // If we reset it, the user sees "0/120".
+        // If we don't, they see "120/120".
+        // Let's reset it to be clean, the flag prevents re-trigger.
+        newState.pityLimited = 0;
       } else {
         // 2. Check 6* Probability
         let prob6 = 0.008;
@@ -227,6 +242,7 @@ export const useGachaSystem = () => {
         ...prev,
         currentBannerIndex: nextIndex,
         pityLimited: 0, // Resets per banner
+        isLimitedGuaranteedUsed: false, // Reset flag for new banner
         // pity6 Maintains
         // pity5 Maintains
         // accumulatedPullsForRewards: Resets? "Accumulated 60 pulls... get next".

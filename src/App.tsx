@@ -136,7 +136,11 @@ function App() {
               <div className="h-px bg-gray-700 my-2" />
               <div className="flex justify-between">
                 <span className="text-gray-400">限定保底:</span>
-                <span className="text-blue-400">{state.pityLimited} / 120</span>
+                {state.isLimitedGuaranteedUsed ? (
+                  <span className="text-green-400 font-bold">已获得</span>
+                ) : (
+                  <span className="text-blue-400">{state.pityLimited} / 120</span>
+                )}
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">5★ 保底:</span>

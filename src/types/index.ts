@@ -24,7 +24,8 @@ export interface GachaState {
   pity6: number; // Accumulated non-6* pulls
   pity5: number; // Accumulated non-5* pulls
   pityLimited: number; // Accumulated non-UP pulls (resets per banner)
-  
+  isLimitedGuaranteedUsed: boolean; // Whether the 120-pull guarantee has been used for this banner
+
   // Stats
   totalPulls: number; // Total pulls done across all banners (for 60 pull reward logic?) 
   // Wait, "Accumulate 60 pulls, get next period 10-pull".
