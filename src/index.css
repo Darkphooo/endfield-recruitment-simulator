@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-endfield-yellow: #FFE100;
+  --color-endfield-black: #09090B;
+  --color-endfield-dark: #18181B;
+  --color-endfield-gray: #27272A;
+  --color-endfield-accent: #FACC15;
+  
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  
+  --background-image-stripe-pattern: repeating-linear-gradient(45deg, #000 0, #000 10px, #1a1a1a 10px, #1a1a1a 20px);
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+  }
+}
