@@ -17,3 +17,12 @@
     text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
   }
 }
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

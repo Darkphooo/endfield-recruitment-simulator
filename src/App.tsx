@@ -36,9 +36,9 @@ function App() {
   const requestNextBanner = () => {
     setConfirmAction({
       type: 'NEXT',
-      title: '切换卡池',
+      title: '切换寻访',
       message:
-        '是否切换到下一期卡池？这将重置限定保底（120抽），但保留6星水位。此操作不可逆。',
+        '是否进入下一期寻访？这将重置限定保底（120抽），但保留6星保底。此操作不可逆。',
     });
   };
 
@@ -46,7 +46,7 @@ function App() {
     setConfirmAction({
       type: 'RESET',
       title: '系统重置',
-      message: '确认重置所有数据（包括干员、记录、水位）？此操作不可撤销。',
+      message: '确认重置所有数据（包括干员、记录、保底）？此操作不可撤销。',
     });
   };
 
@@ -83,26 +83,26 @@ function App() {
       <div className="fixed inset-0 pointer-events-none opacity-5" />
 
       {/* Header */}
-      <header className="relative z-10 p-6 border-b border-endfield-gray flex justify-between items-center bg-endfield-black/90 backdrop-blur">
-        <div className="flex items-center gap-4">
-          <div className="w-8 h-8 bg-endfield-yellow text-black flex items-center justify-center font-bold text-xl">
+      <header className="relative z-10 p-4 md:p-6 border-b border-endfield-gray flex justify-between items-center bg-endfield-black/90 backdrop-blur">
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="w-8 h-8 bg-endfield-yellow text-black flex items-center justify-center font-bold text-xl shrink-0">
             E
           </div>
-          <h1 className="text-2xl font-bold tracking-tighter">
+          <h1 className="text-lg md:text-2xl font-bold tracking-tighter truncate">
             明日方舟：终末地 寻访模拟
           </h1>
         </div>
-        <div className="flex gap-6 text-sm">
+        <div className="flex gap-3 md:gap-6 text-sm shrink-0">
           <div className="flex items-center gap-2">
             <Ticket className="text-endfield-yellow" size={18} />
-            <span className="text-gray-400">下期十连券:</span>
+            <span className="text-gray-400 hidden md:inline">下期十连券:</span>
             <span className="text-xl font-bold">
               {state.tickets.nextBannerTenPull}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <Ticket className="text-blue-400" size={18} />
-            <span className="text-gray-400">特殊十连券:</span>
+            <span className="text-gray-400 hidden md:inline">特殊十连券:</span>
             <span className="text-xl font-bold">
               {state.tickets.specialTenPull}
             </span>
@@ -110,9 +110,9 @@ function App() {
         </div>
       </header>
 
-      <main className="relative z-10 container mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="relative z-10 container mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 pb-24 md:pb-8">
         {/* Left: Stats & Info */}
-        <div className="lg:col-span-3 space-y-6">
+        <div className="lg:col-span-3 space-y-6 order-3 lg:order-0">
           <div className="bg-endfield-gray/30 p-6 border-l-4 border-endfield-yellow">
             <h3 className="text-endfield-yellow font-bold mb-4 flex items-center gap-2">
               <AlertTriangle size={18} />
@@ -196,35 +196,36 @@ function App() {
         </div>
 
         {/* Center: Banner Visual */}
-        <div className="lg:col-span-6 flex flex-col">
-          <div className="flex-1 bg-linear-to-br from-gray-900 to-black border border-gray-700 relative overflow-hidden group">
+        <div className="lg:col-span-6 flex flex-col order-1 lg:order-0">
+          <div className="flex-1 bg-linear-to-br from-gray-900 to-black border border-gray-700 relative overflow-hidden group min-h-[400px] lg:min-h-0">
             {/* Operator Full Image Background */}
             <div className="absolute inset-0 z-0 opacity-60 mix-blend-luminosity group-hover:mix-blend-normal group-hover:opacity-80 transition-all duration-700">
               <img
                 src={getOperatorFull(currentUpNames.cn)}
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover"
                 alt="Banner Character"
+                fetchPriority="high"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
             </div>
 
             {/* Banner Content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
-              <div className="text-endfield-yellow/20 text-9xl font-bold absolute top-10 opacity-50 select-none">
+              <div className="text-endfield-yellow/20 text-8xl md:text-9xl font-bold absolute top-10 opacity-50 select-none">
                 0{state.currentBannerIndex + 1}
               </div>
 
               <div className="relative z-20 text-center space-y-2 mt-auto mb-20">
-                <div className="text-xl text-gray-300 tracking-[0.5em] uppercase mb-2 text-shadow">
+                <div className="text-lg md:text-xl text-gray-300 tracking-[0.5em] uppercase mb-2 text-shadow">
                   概率提升
                 </div>
-                <div className="text-6xl md:text-7xl font-bold text-endfield-yellow text-shadow uppercase tracking-tighter drop-shadow-[0_0_10px_rgba(255,225,0,0.5)]">
+                <div className="text-5xl md:text-7xl font-bold text-endfield-yellow text-shadow uppercase tracking-tighter drop-shadow-[0_0_10px_rgba(255,225,0,0.5)]">
                   {currentUpNames.cn}
                 </div>
               </div>
 
               {/* Decorative Elements */}
-              <div className="absolute bottom-10 left-0 w-full flex justify-center gap-4 text-xs text-gray-400 uppercase tracking-widest bg-black/50 py-2 backdrop-blur-sm">
+              <div className="absolute bottom-10 left-0 w-full flex justify-center gap-2 md:gap-4 text-[10px] md:text-xs text-gray-400 uppercase tracking-widest bg-black/50 py-2 backdrop-blur-sm">
                 <span>概率提升</span>
                 <span>::</span>
                 <span>限定寻访</span>
@@ -241,7 +242,7 @@ function App() {
           <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
             <button
               onClick={() => handlePull(1)}
-              className="bg-gray-800 border border-gray-600 hover:bg-gray-700 hover:border-endfield-yellow text-white py-4 font-bold transition-all relative overflow-hidden group"
+              className="bg-gray-800 border border-gray-600 hover:bg-gray-700 hover:border-endfield-yellow text-white py-4 font-bold transition-all relative overflow-hidden group min-h-[44px]"
             >
               <span className="relative z-10">单次寻访</span>
               <div className="absolute inset-0 bg-endfield-yellow/10 translate-y-full group-hover:translate-y-0 transition-transform" />
@@ -249,15 +250,15 @@ function App() {
 
             <button
               onClick={() => handlePull(10)}
-              className="col-span-1 bg-endfield-yellow text-black border border-endfield-yellow hover:bg-white hover:text-black py-4 font-bold transition-all relative overflow-hidden shadow-[0_0_20px_rgba(255,225,0,0.2)]"
+              className="col-span-1 bg-endfield-yellow text-black border border-endfield-yellow hover:bg-white hover:text-black py-4 font-bold transition-all relative overflow-hidden shadow-[0_0_20px_rgba(255,225,0,0.2)] min-h-[44px]"
             >
-              十连寻访 / x10
+              十连寻访
             </button>
 
             <button
               onClick={() => handlePull(10, true)}
               disabled={state.tickets.specialTenPull < 1}
-              className="col-span-2 bg-blue-900/50 border border-blue-500/50 text-blue-200 py-4 font-bold transition-all hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="col-span-2 bg-blue-900/50 border border-blue-500/50 text-blue-200 py-4 font-bold transition-all hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-h-[44px]"
             >
               <Ticket size={18} />
               特殊十连 ({state.tickets.specialTenPull})
@@ -266,7 +267,7 @@ function App() {
         </div>
 
         {/* Right: Controls & Nav */}
-        <div className="lg:col-span-3 flex flex-col gap-4">
+        <div className="lg:col-span-3 flex flex-col gap-4 order-2 lg:order-0">
           <div className="bg-endfield-gray/30 p-6 border border-gray-700 flex-1 flex flex-col justify-between">
             <div>
               <h3 className="text-gray-300 font-bold mb-6 flex items-center gap-2">
@@ -284,7 +285,7 @@ function App() {
                 </button>
 
                 <div className="text-xs text-gray-500 px-2 leading-relaxed">
-                  切换卡池将重置限定保底 (120抽)，但保留 6★ 概率提升水位。
+                  切换卡池将重置限定保底 (120抽)，但保留 6★ 概率提升。
                 </div>
 
                 <button
@@ -298,7 +299,7 @@ function App() {
             </div>
 
             <div className="mt-8 border-t border-gray-700 pt-4">
-              <div className="text-xs text-gray-500 mb-2">当前周期</div>
+              <div className="text-xs text-gray-500 mb-2">当前寻访</div>
               <div className="text-xl font-bold text-endfield-yellow">
                 {currentBanner.name}
               </div>

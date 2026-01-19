@@ -29,19 +29,19 @@ export const HistoryArchive: React.FC<HistoryArchiveProps> = ({ state, onClose }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-7xl h-[90vh] flex flex-col bg-endfield-black border border-gray-700 shadow-2xl">
+      <div className="relative w-full max-w-7xl h-full md:h-[90vh] flex flex-col bg-endfield-black border border-gray-700 shadow-2xl">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700 bg-gray-900/50">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold text-endfield-yellow tracking-widest uppercase flex items-center gap-2">
-              <span className="w-2 h-8 bg-endfield-yellow block mr-2" />
+        <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-700 bg-gray-900/50 shrink-0">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <h2 className="text-xl md:text-2xl font-bold text-endfield-yellow tracking-widest uppercase flex items-center gap-2">
+              <span className="w-2 h-6 md:h-8 bg-endfield-yellow block mr-2" />
               人事档案
             </h2>
-            <div className="flex bg-black border border-gray-700 p-1 rounded-lg">
+            <div className="flex bg-black border border-gray-700 p-1 rounded-lg self-start md:self-auto">
               <button
                 onClick={() => setMode('list')}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-bold transition-all ${
+                className={`flex items-center gap-2 px-3 py-2 md:px-4 text-sm font-bold transition-all min-h-[32px] ${
                   mode === 'list' 
                     ? 'bg-endfield-gray text-white' 
                     : 'text-gray-500 hover:text-white'
@@ -52,7 +52,7 @@ export const HistoryArchive: React.FC<HistoryArchiveProps> = ({ state, onClose }
               </button>
               <button
                 onClick={() => setMode('stats')}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-bold transition-all ${
+                className={`flex items-center gap-2 px-3 py-2 md:px-4 text-sm font-bold transition-all min-h-[32px] ${
                   mode === 'stats' 
                     ? 'bg-endfield-gray text-white' 
                     : 'text-gray-500 hover:text-white'
@@ -65,9 +65,9 @@ export const HistoryArchive: React.FC<HistoryArchiveProps> = ({ state, onClose }
           </div>
           <button 
             onClick={onClose}
-            className="text-gray-500 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+            className="text-gray-500 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
-            <X size={32} />
+            <X size={24} />
           </button>
         </div>
 
@@ -76,8 +76,9 @@ export const HistoryArchive: React.FC<HistoryArchiveProps> = ({ state, onClose }
           
           {/* LIST MODE */}
           {mode === 'list' && (
-            <div className="absolute inset-0 overflow-y-auto custom-scrollbar p-6">
-              <table className="w-full text-left border-collapse">
+            <div className="absolute inset-0 overflow-y-auto custom-scrollbar p-4 md:p-6">
+              {/* Desktop Table */}
+              <table className="w-full text-left border-collapse hidden md:table">
                 <thead className="sticky top-0 bg-endfield-black z-10">
                   <tr className="text-gray-500 border-b border-gray-700 text-sm uppercase tracking-wider">
                     <th className="p-4 font-normal">序号</th>
@@ -125,20 +126,55 @@ export const HistoryArchive: React.FC<HistoryArchiveProps> = ({ state, onClose }
                   )}
                 </tbody>
               </table>
+
+              {/* Mobile List View */}
+              <div className="md:hidden space-y-3">
+                  {state.history.map((record, idx) => (
+                    <div key={idx} className="bg-gray-900/50 border border-gray-800 p-3 rounded flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                             <div className="text-xs text-gray-600 font-mono w-8">
+                                #{state.history.length - idx}
+                             </div>
+                             <div className="flex flex-col">
+                                <span className={`font-bold ${
+                                     record.operator.rarity === 6 ? 'text-endfield-yellow' :
+                                     record.operator.rarity === 5 ? 'text-purple-300' : 'text-gray-300'
+                                 }`}>
+                                     {record.operator.name}
+                                 </span>
+                                 <span className="text-xs text-gray-500">
+                                    {Array(record.operator.rarity).fill('★').join('')}
+                                 </span>
+                             </div>
+                        </div>
+                        
+                        {record.isNew && (
+                             <span className="px-2 py-0.5 text-xs bg-red-900/50 text-red-400 border border-red-900 rounded">
+                                 NEW
+                             </span>
+                        )}
+                    </div>
+                  ))}
+                  {state.history.length === 0 && (
+                    <div className="p-8 text-center text-gray-600">
+                        暂无寻访记录
+                    </div>
+                  )}
+              </div>
             </div>
           )}
 
           {/* STATS MODE */}
           {mode === 'stats' && (
-            <div className="absolute inset-0 overflow-y-auto custom-scrollbar p-8 space-y-12">
+            <div className="absolute inset-0 overflow-y-auto custom-scrollbar p-4 md:p-8 space-y-8 md:space-y-12">
               
               {/* 6 Stars */}
               <section>
-                <h3 className="text-endfield-yellow text-xl font-bold mb-6 flex items-center gap-4 border-b border-gray-800 pb-2">
-                  <span className="text-4xl">6★</span>
+                <h3 className="text-endfield-yellow text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center gap-4 border-b border-gray-800 pb-2">
+                  <span className="text-3xl md:text-4xl">6★</span>
                   <span className="text-sm opacity-50 tracking-widest uppercase">六星干员</span>
                 </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4">
                   {statsData[6].map(op => {
                     const count = state.inventory[op.id] || 0;
                     const isOwned = count > 0;
@@ -151,11 +187,11 @@ export const HistoryArchive: React.FC<HistoryArchiveProps> = ({ state, onClose }
 
               {/* 5 Stars */}
               <section>
-                <h3 className="text-purple-400 text-xl font-bold mb-6 flex items-center gap-4 border-b border-gray-800 pb-2">
-                  <span className="text-4xl">5★</span>
+                <h3 className="text-purple-400 text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center gap-4 border-b border-gray-800 pb-2">
+                  <span className="text-3xl md:text-4xl">5★</span>
                   <span className="text-sm opacity-50 tracking-widest uppercase">五星干员</span>
                 </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4">
                   {statsData[5].map(op => {
                     const count = state.inventory[op.id] || 0;
                     const isOwned = count > 0;
@@ -168,11 +204,11 @@ export const HistoryArchive: React.FC<HistoryArchiveProps> = ({ state, onClose }
 
               {/* 4 Stars */}
               <section>
-                <h3 className="text-gray-400 text-xl font-bold mb-6 flex items-center gap-4 border-b border-gray-800 pb-2">
-                  <span className="text-4xl">4★</span>
+                <h3 className="text-gray-400 text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center gap-4 border-b border-gray-800 pb-2">
+                  <span className="text-3xl md:text-4xl">4★</span>
                   <span className="text-sm opacity-50 tracking-widest uppercase">四星干员</span>
                 </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4">
                   {statsData[4].map(op => {
                     const count = state.inventory[op.id] || 0;
                     const isOwned = count > 0;
@@ -199,6 +235,7 @@ const OperatorCard = ({ op, count, isOwned }: { op: { id: string; name: string; 
         <img 
             src={getOperatorAvatar(op.name)} 
             alt={op.name}
+            loading="lazy"
             className="w-full h-full object-cover transition-transform group-hover:scale-110"
             onError={(e) => {
                 // Fallback styling if image missing

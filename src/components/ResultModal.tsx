@@ -12,23 +12,23 @@ export const ResultModal: React.FC<ResultModalProps> = ({ results, onClose }) =>
   if (results.length === 0) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-6xl p-8 bg-endfield-black border border-endfield-yellow/30">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm animate-in fade-in duration-200 p-0 md:p-8">
+      <div className="relative w-full max-w-6xl h-full md:h-auto p-4 md:p-8 bg-endfield-black border-y md:border border-endfield-yellow/30 overflow-y-auto custom-scrollbar">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-endfield-yellow hover:text-white transition-colors"
+          className="absolute top-2 right-2 md:top-4 md:right-4 text-endfield-yellow hover:text-white transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
         >
           <X size={32} />
         </button>
 
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-endfield-yellow tracking-widest uppercase">
+        <div className="text-center mb-4 md:mb-8 mt-4 md:mt-0">
+          <h2 className="text-2xl md:text-3xl font-bold text-endfield-yellow tracking-widest uppercase">
             寻访结果
           </h2>
           <div className="h-1 w-24 bg-endfield-yellow mx-auto mt-2" />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4 pb-20 md:pb-0">
           {results.map((res, idx) => (
             <div 
               key={idx}
@@ -60,9 +60,10 @@ export const ResultModal: React.FC<ResultModalProps> = ({ results, onClose }) =>
               
               {/* Image Container */}
               <div className="w-full aspect-square relative mb-2 bg-black/50 overflow-hidden">
-                 <img 
+                <img 
                     src={getOperatorAvatar(res.operator.name)} 
                     alt={res.operator.name}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                  />
               </div>
@@ -88,10 +89,10 @@ export const ResultModal: React.FC<ResultModalProps> = ({ results, onClose }) =>
           ))}
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center pb-8 md:pb-0">
             <button 
                 onClick={onClose}
-                className="px-12 py-3 bg-endfield-yellow text-black font-bold text-lg hover:bg-white transition-colors uppercase tracking-wider clip-path-polygon"
+                className="w-full md:w-auto px-12 py-4 min-h-[44px] bg-endfield-yellow text-black font-bold text-lg hover:bg-white transition-colors uppercase tracking-wider clip-path-polygon"
                 style={{ clipPath: 'polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%)' }}
             >
                 确认
