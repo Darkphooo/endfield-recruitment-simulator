@@ -133,6 +133,8 @@ export const useGachaSystem = () => {
           if (isUp) {
             selectedOp = upOp;
             if (!isSpecial) newState.pityLimited = 0;
+            // If we got the Limited UP naturally, the 120 guarantee is considered "fulfilled/used"
+            newState.isLimitedGuaranteedUsed = true;
           } else {
             const randIndex = Math.floor(Math.random() * offRate6.length);
             selectedOp = offRate6[randIndex];
