@@ -3,7 +3,7 @@ import operatorsData from '../data/operators.json';
 import bannersData from '../data/banners.json';
 import type { Operator, Banner, GachaState, PullResult } from '../types';
 
-const INITIAL_STATE: GachaState = {
+const getInitialState = (): GachaState => ({
   currentBannerIndex: 0,
   pity6: 0,
   pity5: 0,
@@ -18,10 +18,10 @@ const INITIAL_STATE: GachaState = {
     specialTenPull: 0,
   },
   hasClaimed30Reward: false,
-};
+});
 
 export const useGachaSystem = () => {
-  const [state, setState] = useState<GachaState>(INITIAL_STATE);
+  const [state, setState] = useState<GachaState>(getInitialState());
 
   const currentBanner = useMemo(
     () => bannersData[state.currentBannerIndex],
@@ -55,7 +55,11 @@ export const useGachaSystem = () => {
       currentState: GachaState,
       isSpecial: boolean
     ): { result: PullResult; newState: GachaState } => {
-      const newState = { ...currentState };
+      const newState = {
+        ...currentState,
+        tickets: { ...currentState.tickets }, // Deep copy tickets
+        inventory: { ...currentState.inventory }, // Deep copy inventory
+      };
 
       // If not special, increment total counters
       if (!isSpecial) {
@@ -207,7 +211,10 @@ export const useGachaSystem = () => {
       }
 
       // Process Pulls
-      let currentState = { ...state };
+      let currentState = {
+        ...state,
+        tickets: { ...state.tickets }, // Deep copy tickets
+      };
       if (isSpecial) {
         currentState.tickets.specialTenPull -= 1;
       }
@@ -257,7 +264,7 @@ export const useGachaSystem = () => {
   }, []);
 
   const resetAll = useCallback(() => {
-    setState(INITIAL_STATE);
+    setState(getInitialState());
   }, []);
 
   return {

@@ -139,7 +139,9 @@ function App() {
                 {state.isLimitedGuaranteedUsed ? (
                   <span className="text-green-400 font-bold">已获得</span>
                 ) : (
-                  <span className="text-blue-400">{state.pityLimited} / 120</span>
+                  <span className="text-blue-400">
+                    {state.pityLimited} / 120
+                  </span>
                 )}
               </div>
               <div className="flex justify-between">
@@ -205,8 +207,9 @@ function App() {
             {/* Operator Full Image Background */}
             <div className="absolute inset-0 z-0 opacity-60 mix-blend-luminosity group-hover:mix-blend-normal group-hover:opacity-80 transition-all duration-700">
               <img
+                key={currentUpNames.cn}
                 src={getOperatorFull(currentUpNames.cn)}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover animate-in fade-in duration-500"
                 alt="Banner Character"
                 fetchPriority="high"
               />
